@@ -60,6 +60,7 @@ def get_data(file_name: str, lines: int):
     return data
 
 
+print()
 print("Zadanie 1.")
 print()
 n: int = 4
@@ -71,43 +72,75 @@ variations: list[list[int]] = gen_variations(elements, k, False)
 for v in variations:
     print(str(i) + ". " + str(v))
     i += 1
-print()
 
+print()
 print("Zadanie 2.")
 print()
-n2: int = 3
-m: int = 2
+n2: int = 4
+m: int = 3
 elements2 = list(range(1, n2 + 1))
 
 i = 1
-combinations: list[list[int]] = gen_variations(elements2, m, True, False)
+combinations: list[list[int]] = gen_variations(elements2, m, False, False)
 for c in combinations:
     print(str(i) + ". " + str(c))
     i += 1
+
 print()
-
-
 print("Uzupelnienie 1d.")
 print()
-italy = get_data("italy.in", 15)
+data = get_data("italy.in", 15)
 min_distance: float = math.inf
 shortest_path: list[int] = []
 
 for v in variations:
     distance: float = 0
     for vi in range(len(v) - 1):
-        _, _, _, x1, y1 = italy[v[vi] - 1]
-        _, _, _, x2, y2 = italy[v[vi + 1] - 1]
-        distance += math.sqrt((x1 - x2) ** 2.0 + (y1 - y2) ** 2.0)
+        _, _, _, x1, y1 = data[v[vi] - 1]
+        _, _, _, x2, y2 = data[v[vi + 1] - 1]
+        distance += math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
     if distance < min_distance:
         min_distance = distance
         shortest_path = v
 
 print(shortest_path)
+i = 0
 for id in shortest_path:
-    indx: int = id - 1
-    _, town, _, _, _ = italy[indx]
-    print(" -> " + town, end="")
+    _, town, _, _, _ = data[id - 1]
+    if i == 0:
+        print(town, end="")
+    else:
+        print(" -> " + town, end="")
+    i += 1
 print()
 print("Distance " + str(min_distance))
+
+print()
+print("Uzupelnienie 2d.")
+print()
+
+greatest_average: float = -math.inf
+cities_with_greatest_average: list[int] = []
+
+for c in combinations:
+    population_sum: int = 0
+    for ci in range(len(c)):
+        _, _, population, _, _ = data[c[ci] - 1]
+        population_sum += population
+    average: float = population_sum / len(c)
+    if average > greatest_average:
+        greatest_average = average
+        cities_with_greatest_average = c
+
+print(cities_with_greatest_average)
+i = 0
+for id in cities_with_greatest_average:
+    _, town, _, _, _ = data[id - 1]
+    if i == 0:
+        print(town, end="")
+    else:
+        print(", " + town, end="")
+    i += 1
+print()
+print("Average population " + str(greatest_average))
