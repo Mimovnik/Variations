@@ -81,7 +81,7 @@ m: int = 3
 elements2 = list(range(1, n2 + 1))
 
 i = 1
-combinations: list[list[int]] = gen_variations(elements2, m, False, False)
+combinations: list[list[int]] = gen_variations(elements2, m, True, False)
 for c in combinations:
     print(str(i) + ". " + str(c))
     i += 1
@@ -120,6 +120,7 @@ print()
 print("Uzupelnienie 2d.")
 print()
 
+combinations = gen_variations(elements2, m, False, False)
 greatest_average: float = -math.inf
 cities_with_greatest_average: list[int] = []
 
